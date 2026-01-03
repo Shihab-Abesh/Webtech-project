@@ -1,0 +1,102 @@
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9eef3;
+            background-image: url("port.jpg"); 
+            background-size: cover;               
+            background-position: center;
+            background-repeat: no-repeat;
+            overflow: hidden;
+            
+        }
+
+        .container {
+            width: 100%;
+            margin-top: 170px;
+            text-align: center;
+            
+        }
+
+        .login-box {
+            width: 320px;
+            padding: 20px;
+            background-color: rgba(17, 229, 236, 0.7);
+            border: 1px solid #cccccc;
+            margin: 0 auto;
+            height: 300px
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        input {
+            width:300px;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #cccccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        p {
+            margin-top: 15px;
+            font-size: 12px;
+        }
+        
+.links {
+    margin-top: 15px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.links a {
+    color: #0d1317;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.links span {
+    margin: 0 5px;
+    color: #666;
+}
+
+h1 {
+    font-family: Arial, sans-serif;
+    font-size: 34px;
+    color: #003366;
+    text-align: center;
+    margin: -8px;
+    padding: 15px 25px;
+    width: 100%;
+    background-color: #f4f8fb;
+    border: 2px solid #0077cc;
+    border-radius: 6px;
+
+}
+
+
+

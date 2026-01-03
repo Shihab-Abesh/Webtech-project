@@ -1,0 +1,86 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+    background-image: url("10.jpg");
+    background-size: cover;        
+    background-position: center;   
+    background-repeat: no-repeat;  
+    background-attachment: fixed;  
+    min-height: 100vh;   
+}
+
+.container {
+    width: 90%;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.shipment-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.shipment-table th,
+.shipment-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.shipment-table th {
+    background: #2c3e50;
+    color: #fff;
+}
+
+.shipment-table tr:hover {
+    background: #f1f1f1;
+}
+
+/* Status colors */
+.status {
+    font-weight: bold;
+}
+
+.completed {
+    color: green;
+}
+
+.in-transit {
+    color: orange;
+}
+
+.pending {
+    color: red;
+}
+
+/* Buttons */
+.view-btn {
+    padding: 6px 12px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.view-btn:hover {
+    background: #2980b9;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #3498db;
+    font-weight: bold;
+}

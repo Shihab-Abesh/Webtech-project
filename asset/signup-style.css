@@ -1,0 +1,62 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #faf6f6;
+  background-image: url("reg.jpg"); 
+  background-size: cover;               
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+
+
+
+}
+
+.form-container {
+  width: 350px;
+  margin: 50px auto;
+  background: #26c5ed;
+  padding: 30px;
+  border-radius: 6px;
+  background-color: rgba(17, 229, 236, 0.7);
+  margin-top: 80px;
+
+}
+
+h2 {
+  text-align: center;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+input, select {
+  width: 320px;
+  padding: 6px;
+  margin-top: 4px;
+
+}
+
+button {
+  width: 335px;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #005fa3;
+}
+
+select {
+  width: 335px;
+  padding: 6px;
+  margin-top: 4px;
+}
+

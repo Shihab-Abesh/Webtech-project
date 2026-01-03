@@ -1,0 +1,26 @@
+/* Basic admin styling - keeps it simple */
+.admin-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap:12px;
+  margin:12px 0 18px;
+}
+.admin-card{
+  background:rgba(255,255,255,0.92);
+  border-radius:12px;
+  padding:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.12);
+  cursor:pointer;
+}
+.admin-card h3{margin:0 0 6px 0;}
+.admin-card p{margin:0; opacity:0.8;}
+.table-wrap{overflow:auto;}
+table{width:100%; border-collapse:collapse; background:rgba(255,255,255,0.92);}
+th,td{border:1px solid rgba(0,0,0,0.15); padding:10px; text-align:left;}
+th{background:rgba(0,0,0,0.06);}
+.btn-small{padding:7px 10px; border-radius:10px; font-size:13px; cursor:pointer; border:0;}
+.btn-approve{background:#1f6feb; color:#fff;}
+.btn-delete{background:#d73a49; color:#fff;}
+.btn-toggle{background:#444; color:#fff;}
+.status{display:inline-block; padding:4px 8px; border-radius:999px; font-size:12px; font-weight:bold;}
+.status.pending{background:#ffe08a;}
