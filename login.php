@@ -11,6 +11,7 @@ if(isset($_POST['login'])){
     $password = $_POST['password'];
 
     if($email == "" || $password == ""){
+         header('location: login.php');
         $msg = "null submission!";
     }else{
 
