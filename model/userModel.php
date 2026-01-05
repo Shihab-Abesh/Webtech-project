@@ -4,16 +4,21 @@ require_once('db.php');
 function login($user){
     $con = getConnection();
 
-    $email = esc($con, $user['email']);
-    $password = esc($con, $user['password']);
+    $email    = $user['email'];
+    $password = $user['password']; 
 
-    $sql = "select * from users where email='{$email}' and password='{$password}' limit 1";
-    $result = mysqli_query($con, $sql);
+    $stmt = $con->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if($result && mysqli_num_rows($result) == 1){
-        return mysqli_fetch_assoc($result);
-    }else{
-        return false;
+    if($result && $result->num_rows == 1){
+        $row = $result->fetch_assoc();
+
+        
+        if(password_verify($password, $row['password'])){
+            return $row;
+        }
     }
 }
 
@@ -27,6 +32,10 @@ function addUser($user){
     $password = esc($con, $user['password']);
     $phone = esc($con, $user['phone']);
     $dob = esc($con, $user['dob']);
+  
+if(emailExists($email)){
+        return "email_exists";
+    }
 
     $sql = "insert into users (role, name, email, password, phone, dob, balance, created_at)
             values('{$role}', '{$name}', '{$email}', '{$password}', '{$phone}', '{$dob}', 0.00, NOW())";
@@ -78,4 +87,14 @@ function updateBalance($userId, $newBalance){
         return false;
     }
 }
+
+function emailExists($email){
+    $con = getConnection();
+    $stmt = $con->prepare("SELECT id FROM users WHERE email=? LIMIT 1");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    return ($res && $res->num_rows == 1);
+}
+
 ?>
