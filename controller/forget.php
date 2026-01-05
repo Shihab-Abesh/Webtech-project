@@ -9,17 +9,13 @@ $msg = '';
 if (isset($_POST['reset'])) {
 
     $email = $_POST['email'];
-    $newPass = $_POST['password'];
-    $confirmPass = $_POST['confirmpassword'];
+    $newPassword = $_POST['password'];
+    $confirmPassword = $_POST['confirmpassword'];
 
-    if($email == '' || $newPass == '' || $confirmPass == ''){
-        $msg = 'Null submission!';
-    }
-    
-    if ($newPass !== $confirmPass) {
+    if ($newPassword !== $confirmPassword) {
         echo "<script>
                 alert('Passwords do not match');
-                window.location.href = 'forget.php';
+                window.location.href = '../controller/forget.php';
               </script>";
         exit();
     }
@@ -32,13 +28,13 @@ if (isset($_POST['reset'])) {
     if ($checkEmail->num_rows === 0) {
         echo "<script>
                 alert('Email not found');
-                window.location.href = 'forget.php';
+                window.location.href = '../controller/forget.php';
               </script>";
         exit();
     }
 
 
-    $hashedPassword = $newPass;
+    $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
     
     $update = $con->prepare("UPDATE users SET password = ? WHERE email = ?");
@@ -47,13 +43,13 @@ if (isset($_POST['reset'])) {
     if ($update->execute()) {
         echo "<script>
                 alert('Password reset successful');
-                window.location.href = 'login.php';
+                window.location.href = '../controller/login.php';
               </script>";
         exit();
     } else {
         echo "<script>
                 alert('Something went wrong');
-                window.location.href = 'forget.php';
+                window.location.href = '../controller/forget.php';
               </script>";
         exit();
     }
@@ -61,7 +57,6 @@ if (isset($_POST['reset'])) {
     $checkEmail->close();
     $update->close();
 }
-
 mysqli_close($con);
 ?>
 <!DOCTYPE html>
