@@ -18,14 +18,19 @@ if(isset($_POST['register'])){
     }else if($password != $confirm){
         $msg = "password not matched!";
     }else{
-        $user = ['role'=>$role, 'name'=>$name, 'email'=>$email, 'password'=>$password, 'phone'=>$phone, 'dob'=>$dob];
+      $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $user = ['role'=>$role, 'name'=>$name, 'email'=>$email, 'password'=>$hashedPassword, 'phone'=>$phone, 'dob'=>$dob];
         $status = addUser($user);
-
-        if($status){
-            header('location: login.php');
+$status = addUser($user);
+        if($status === true){
+            header('location: ../controller/login.php');
             exit();
-        }else{
-            $msg = "signup failed!";
+        }
+        elseif($status === "email_exists"){
+            $msg = "email already registered!!!!";
+         }
+         else{
+           $msg = "signup failed!";
         }
     }
 }
@@ -57,7 +62,8 @@ if(isset($_POST['register'])){
       <input type="text" id="name" name="name" required>
 
       <label>Email</label>
-      <input type="email" id="email" name="email" required>
+      <input type="email" id="email" name="email" required onkeyup="checkEmailAjax()">
+      <span id="emailMsg" style="display:block; margin-top:6px; font-weight:bold;"></span>
 
       <label>Password</label>
       <input type="password" id="password" name="password" required>
