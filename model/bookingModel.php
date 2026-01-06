@@ -143,13 +143,13 @@ function updateBookingStatus($bookingId, $ownerId, $newStatus){
     $oldStatus = $row['status'];
     $amount = floatval($row['amount']);
 
-    // update booking status
+    
     $sql2 = "UPDATE bookings SET status='{$newStatus}', updated_at=NOW() WHERE id={$bookingId}";
     if(!mysqli_query($con, $sql2)){
         return false;
     }
 
-    // update balance only when moving to Accepted from non-Accepted
+    
     if($oldStatus !== "Accepted" && $newStatus === "Accepted"){
         $sql3 = "UPDATE users SET balance = balance + {$amount} WHERE id={$ownerId}";
         if(!mysqli_query($con, $sql3)){
