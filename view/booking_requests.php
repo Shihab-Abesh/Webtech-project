@@ -7,9 +7,11 @@ if(!isset($_SESSION['owner_id'])){
     header('location: ../controller/login.php');
     exit();
 }
-
 $ownerId = $_SESSION['owner_id'];
 $msg = "";
+
+$cookieQ = isset($_COOKIE['owner_booking_q']) ? $_COOKIE['owner_booking_q'] : "";
+$cookieStatus = isset($_COOKIE['owner_booking_status']) ? $_COOKIE['owner_booking_status'] : "Pending";
 
 if(isset($_POST['action']) && isset($_POST['booking_id'])){
     $bookingId = intval($_POST['booking_id']);
@@ -25,8 +27,7 @@ if(isset($_POST['action']) && isset($_POST['booking_id'])){
     }
 }
 
-$bookings = getPendingBookingsByOwner($ownerId);
-
+$bookings = searchBookingsByOwner($ownerId, $cookieQ, $cookieStatus);
 function h($s){ return htmlspecialchars($s); }
 ?>
 <!DOCTYPE html>
@@ -53,64 +54,68 @@ function h($s){ return htmlspecialchars($s); }
       <?php } ?>
 
       <div class="filters">
-        <input type="text" id="bookingSearch" placeholder="Search by customer or ship..." onkeyup="filterBookings()">
-        <select id="statusFilter" onchange="filterBookings()">
+        <input type="text" id="bookingSearch" value="<?= h($cookieQ) ?>" placeholder="Search by customer or ship..." onkeyup="ajaxSearch()">
+        <select id="statusFilter" onchange="ajaxSearch()">
           <option value="">All</option>
-          <option value="Pending">Pending</option>
-          <option value="Accepted">Accepted</option>
-          <option value="Rejected">Rejected</option>
+          <option value="Pending" <?= ($cookieStatus==="Pending") ? "selected" : "" ?>>Pending</option>
+          <option value="Accepted" <?= ($cookieStatus==="Accepted") ? "selected" : "" ?>>Accepted</option>
+          <option value="Rejected" <?= ($cookieStatus==="Rejected") ? "selected" : "" ?>>Rejected</option>
         </select>
       </div>
 
-      <div class="table-wrap">
-        <table id="bookingTable">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Ship</th>
-              <th>Customer</th>
-              <th>Destination</th>
-              <th>Cargo</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>Requested</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach($bookings as $b){ ?>
-              <tr>
-                <td><?= $b['id'] ?></td>
-                <td><?= h($b['ship_name']) ?></td>
-                <td><?= h($b['customer_name']) ?></td>
-                <td><?= h($b['destination']) ?></td>
-                <td><?= h($b['cargo_type']) ?></td>
-                <td>৳<?= number_format($b['amount'],2) ?></td>
-                <td><span class="badge status-pending"><?= h($b['status']) ?></span></td>
-                <td><?= h($b['requested_at']) ?></td>
-                <td>
-                  <form method="post" style="display:inline;" onsubmit="return confirmAccept()">
-                    <input type="hidden" name="booking_id" value="<?= $b['id'] ?>">
-                    <input type="hidden" name="action" value="accept">
-                    <button class="btn btn-small btn-primary" type="submit">Accept</button>
-                  </form>
-
-                  <form method="post" style="display:inline;" onsubmit="return confirmReject()">
-                    <input type="hidden" name="booking_id" value="<?= $b['id'] ?>">
-                    <input type="hidden" name="action" value="reject">
-                    <button class="btn btn-small btn-danger" type="submit">Reject</button>
-                  </form>
-                </td>
-              </tr>
-            <?php } ?>
-
-            <?php if(count($bookings) == 0){ ?>
-              <tr><td colspan="9">No pending booking requests.</td></tr>
-            <?php } ?>
-          </tbody>
-        </table>
-      </div>
-
+ <div class="table-wrap">
+   <table id="bookingTable">
+   <thead>
+   <tr>
+    <th>ID</th>
+    <th>Ship</th>
+     <th>Customer</th>
+      <th>Destination</th>
+     <th>Cargo</th>
+      <th>Amount</th>
+      <th>Status</th>
+     <th>Requested</th>
+      <th>Action</th>
+     </tr>
+     </thead>
+      <tbody>
+    <?php foreach($bookings as $b){ ?>
+    <tr data-status="<?= h($b['status']) ?>">
+     <td><?= $b['id'] ?></td>
+     <td><?= h($b['ship_name']) ?></td>
+     <td><?= h($b['customer_name']) ?></td>
+     <td><?= h($b['destination']) ?></td>
+     <td><?= h($b['cargo_type']) ?></td>
+      <td>৳<?= number_format($b['amount'],2) ?></td>
+      <td><span class="badge status-pending"><?= h($b['status']) ?></span></td>
+      <td><?= h($b['requested_at']) ?></td>
+       <td>
+  <?php
+   if($b['status'] == 'Pending'){ ?>
+      <form method="post" style="display:inline;" onsubmit="return confirmAccept()">
+        <input type="hidden" name="booking_id" value="<?= $b['id'] ?>">
+        <input type="hidden" name="action" value="accept">
+       <button class="btn btn-small btn-primary" type="submit">Accept</button>
+       </form>
+    <form method="post" style="display:inline;" onsubmit="return confirmReject()">
+    <input type="hidden" name="booking_id" value="<?= $b['id'] ?>">
+    <input type="hidden" name="action" value="reject">
+       <button class="btn btn-small btn-danger" type="submit">Reject</button>
+     </form>
+ <?php }
+ else
+ { ?>
+   -
+   <?php } ?>
+   </td>
+    </tr>
+      <?php } ?>
+   <?php if(count($bookings) == 0){ ?>
+    <tr><td colspan="9">No booking requests found.</td></tr>
+   <?php } ?>
+      </tbody>
+     </table>
+   </div>
     </div>
   </div>
 </body>
