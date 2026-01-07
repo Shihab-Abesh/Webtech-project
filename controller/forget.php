@@ -2,9 +2,7 @@
 session_start();
 require_once('../model/db.php');
 $con = getConnection();
-
 $msg = '';
-
 
 if (isset($_POST['reset'])) {
 
@@ -15,7 +13,7 @@ if (isset($_POST['reset'])) {
     if ($newPassword !== $confirmPassword) {
         echo "<script>
                 alert('Passwords do not match');
-                window.location.href = '../controller/forget.php';
+                window.location.href = 'forget.php';
               </script>";
         exit();
     }
@@ -28,28 +26,24 @@ if (isset($_POST['reset'])) {
     if ($checkEmail->num_rows === 0) {
         echo "<script>
                 alert('Email not found');
-                window.location.href = '../controller/forget.php';
+                window.location.href = 'forget.php';
               </script>";
         exit();
     }
-
-
     $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-
-    
     $update = $con->prepare("UPDATE users SET password = ? WHERE email = ?");
     $update->bind_param("ss", $hashedPassword, $email);
 
     if ($update->execute()) {
         echo "<script>
                 alert('Password reset successful');
-                window.location.href = '../controller/login.php';
+                window.location.href = 'login.php';
               </script>";
         exit();
     } else {
         echo "<script>
                 alert('Something went wrong');
-                window.location.href = '../controller/forget.php';
+                window.location.href = 'forget.php';
               </script>";
         exit();
     }
@@ -69,31 +63,23 @@ mysqli_close($con);
 
 <body>
 
-    <div class="container">
-        <div class="login-box">
-            <h2>Forgot Password</h2>
-
-            <p>Please enter your Email address to reset your password.</p>
-
-            <form action="" method="POST">
-                <label>Email</label>
-                <input type="email" name="email" required>
-
-                <label>New Password</label>
-                <input type="password" name="password" required>
-
-                <label>Confirm Password</label>
-                <input type="password" name="confirmpassword" required>
-
-                <button type="submit" name="reset">Reset Password</button>
-                
-            </form>
-
-            <div class="links">
-                <a href="login.php">Back to Login</a>
-            </div>
-        </div>
+<div class="container">
+    <div class="login-box">
+     <h2>Forgot Password</h2>
+    <p>Please enter your Email address to reset your password.</p>
+<form action="" method="POST">
+    <label>Email</label>
+    <input type="email" name="email" required>
+    <label>New Password</label>
+    <input type="password" name="password" required>
+    <label>Confirm Password</label>
+    <input type="password" name="confirmpassword" required>
+    <button type="submit" name="reset">Reset Password</button>
+ </form>
+   <div class="links">
+     <a href="login.php">Back to Login</a>
+    </div> 
+   </div>
     </div>
-
 </body>
 </html>
